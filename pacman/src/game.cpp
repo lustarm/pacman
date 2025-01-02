@@ -1,6 +1,10 @@
 #include <iostream>
 
 #include "game.h"
+#include "assets.h"
+
+SDL_Texture* playerTexture;
+SDL_Rect srcRect, dstRect;
 
 Game::Game()
 {
@@ -44,8 +48,17 @@ void Game::init()
 		isRunning = false;
 		return;
 	}
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Created renderer" << std::endl;
+
+	// Create surface
+	playerTexture = loadTexture("assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png", renderer);
+	if (!playerTexture)
+	{
+		std::cout << "Failed to load player texture" << std::endl;
+		isRunning = false;
+		return;
+	}
 }
 
 void Game::handleEvents()
@@ -58,6 +71,9 @@ void Game::handleEvents()
 		case SDL_QUIT:
 			isRunning = false;
 			break;
+		case SDL_KEYDOWN:
+			dstRect.x += movement;
+			break;
 		default:
 			break;
 	}
@@ -65,7 +81,25 @@ void Game::handleEvents()
 
 void Game::update()
 {
+	if (!deltaTime)
+	{
+		// Pass if delta time is 0
+		return;
+	}
 
+	movement = movementSpeed * framerate * deltaTime;
+
+    framerate = 1.0f / deltaTime; // Calculate frame rate from delta time
+    std::cout << "Frame Rate: " << framerate << " FPS" << std::endl;
+
+    if (dstRect.h == 0 && dstRect.w == 0) // Example check to initialize only once
+    {
+        dstRect.h = 32;
+        dstRect.w = 32;
+    }
+
+	// dstRect.x += movement;
+	SDL_Delay(10);
 }
 
 void Game::render()
@@ -73,6 +107,7 @@ void Game::render()
 	SDL_RenderClear(renderer);
 
 	/* == Render here == */
+	SDL_RenderCopy(renderer, playerTexture, NULL, &dstRect);
 
 	SDL_RenderPresent(renderer);
 }
@@ -89,3 +124,26 @@ bool Game::running() const
 {
 	return isRunning;
 }
+
+/* == Other shit == */
+float Game::getMovementSpeed() const
+{
+	return movementSpeed;
+}
+
+float Game::getFramerate() const
+{
+	return framerate;
+}
+
+float Game::getDeltaTime() const
+{
+	return deltaTime;
+}
+
+void Game::setDeltaTime(float dt)
+{
+	deltaTime = dt;
+}
+
+
