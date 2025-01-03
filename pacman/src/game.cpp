@@ -3,9 +3,11 @@
 
 #include "game.h"
 #include "assets.h"
+#include "gameobject.h"
 
-SDL_Texture* playerTexture;
-SDL_Rect srcRect, dstRect;
+GameObject* player;
+
+SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game()
 {
@@ -52,14 +54,7 @@ void Game::init()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Created renderer" << std::endl;
 
-	// Create surface
-	playerTexture = TextureManager::LoadTexture("assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png", renderer);
-	if (!playerTexture)
-	{
-		std::cout << "Failed to load player texture" << std::endl;
-		isRunning = false;
-		return;
-	}
+	player = new GameObject("assets/Warrior_Blue.png", 0, 0);
 }
 
 void Game::handleEvents()
@@ -81,15 +76,7 @@ void Game::handleEvents()
 
 void Game::update() const
 {
-    if (dstRect.h == 0 && dstRect.w == 0) // Example check to initialize only once
-    {
-        dstRect.h = 32;
-        dstRect.w = 32;
-    }
-	std::cout << deltaTime << std::endl;
-	
-	float speed = 1.0f;
-	// dstRect.x += speed * deltaTime;
+	player->update();
 }
 
 void Game::render()
@@ -97,7 +84,7 @@ void Game::render()
 	SDL_RenderClear(renderer);
 
 	/* == Render here == */
-	SDL_RenderCopy(renderer, playerTexture, NULL, &dstRect);
+	player->render();
 
 	SDL_RenderPresent(renderer);
 }

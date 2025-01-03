@@ -23,6 +23,7 @@ public:
 	float getDeltaTime() const;
 	void setDeltaTime(float);
 
+	static SDL_Renderer *renderer;
 private:
 	bool isRunning;
 	bool fullscreen;
@@ -34,5 +35,4 @@ private:
 	float movement;
 
 	SDL_Window *window;
-	SDL_Renderer *renderer;
 };
