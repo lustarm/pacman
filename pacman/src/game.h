@@ -10,13 +10,14 @@ public:
 	void init();
 
 	void handleEvents();
-	void update();
+	void update() const;
 	void render();
 	void clean();
 
 	bool running() const;
 
 	float getMovementSpeed() const;
+	void setTime(float);
 	float getFramerate() const;
 
 	float getDeltaTime() const;
@@ -27,6 +28,7 @@ private:
 	bool fullscreen;
 
 	float movementSpeed = 1.0f;
+	float time_;
 	float framerate;
 	float deltaTime;
 	float movement;

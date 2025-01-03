@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 #include "game.h"
 #include "assets.h"
@@ -52,7 +53,7 @@ void Game::init()
 	std::cout << "Created renderer" << std::endl;
 
 	// Create surface
-	playerTexture = loadTexture("assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png", renderer);
+	playerTexture = TextureManager::LoadTexture("assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png", renderer);
 	if (!playerTexture)
 	{
 		std::cout << "Failed to load player texture" << std::endl;
@@ -72,34 +73,23 @@ void Game::handleEvents()
 			isRunning = false;
 			break;
 		case SDL_KEYDOWN:
-			dstRect.x += movement;
 			break;
 		default:
 			break;
 	}
 }
 
-void Game::update()
+void Game::update() const
 {
-	if (!deltaTime)
-	{
-		// Pass if delta time is 0
-		return;
-	}
-
-	movement = movementSpeed * framerate * deltaTime;
-
-    framerate = 1.0f / deltaTime; // Calculate frame rate from delta time
-    std::cout << "Frame Rate: " << framerate << " FPS" << std::endl;
-
     if (dstRect.h == 0 && dstRect.w == 0) // Example check to initialize only once
     {
         dstRect.h = 32;
         dstRect.w = 32;
     }
-
-	// dstRect.x += movement;
-	SDL_Delay(10);
+	std::cout << deltaTime << std::endl;
+	
+	float speed = 1.0f;
+	// dstRect.x += speed * deltaTime;
 }
 
 void Game::render()
@@ -146,4 +136,7 @@ void Game::setDeltaTime(float dt)
 	deltaTime = dt;
 }
 
-
+void Game::setTime(float t_)
+{
+	time_ = t_;
+}
