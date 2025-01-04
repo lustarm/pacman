@@ -137,6 +137,7 @@
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\gameobject.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />
@@ -146,6 +147,7 @@
     <ClInclude Include="src\assets.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\gameobject.h" />
+    <ClInclude Include="src\map.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

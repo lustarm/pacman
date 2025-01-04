@@ -4,8 +4,10 @@
 #include "game.h"
 #include "assets.h"
 #include "gameobject.h"
+#include "map.h"
 
 GameObject* player;
+Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 
@@ -55,6 +57,7 @@ void Game::init()
 	std::cout << "Created renderer" << std::endl;
 
 	player = new GameObject("assets/Warrior_Blue.png", 0, 0);
+	map = new Map();
 }
 
 void Game::handleEvents()
@@ -84,6 +87,7 @@ void Game::render()
 	SDL_RenderClear(renderer);
 
 	/* == Render here == */
+	map->drawMap();
 	player->render();
 
 	SDL_RenderPresent(renderer);
